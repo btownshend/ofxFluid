@@ -551,9 +551,9 @@ void ofxFluid::advect(ofxSwapBuffer& _buffer, float _dissipation){
     shader.begin();
     shader.setUniform1f("TimeStep", timeStep);
     shader.setUniform1f("Dissipation", _dissipation);
-    shader.setUniformTexture("VelocityTexture", velocityBuffer.src->getTextureReference(), 0);
-    shader.setUniformTexture("backbuffer", _buffer.src->getTextureReference(), 1);
-    shader.setUniformTexture("tex0", obstaclesFbo.getTextureReference(), 2);
+    shader.setUniformTexture("VelocityTexture", velocityBuffer.src->getTexture(), 0);
+    shader.setUniformTexture("backbuffer", _buffer.src->getTexture(), 1);
+    shader.setUniformTexture("tex0", obstaclesFbo.getTexture(), 2);
     renderFrame(gridWidth,gridHeight);
     shader.end();
     _buffer.dst->end();
@@ -564,9 +564,9 @@ void ofxFluid::jacobi(){
     jacobiShader.begin();
     jacobiShader.setUniform1f("Alpha", -cellSize * cellSize);
     jacobiShader.setUniform1f("InverseBeta", 0.25f);
-    jacobiShader.setUniformTexture("Pressure", pressureBuffer.src->getTextureReference(), 0);
-    jacobiShader.setUniformTexture("Divergence", divergenceFbo.getTextureReference(), 1);
-    jacobiShader.setUniformTexture("tex0", obstaclesFbo.getTextureReference(), 2);
+    jacobiShader.setUniformTexture("Pressure", pressureBuffer.src->getTexture(), 0);
+    jacobiShader.setUniformTexture("Divergence", divergenceFbo.getTexture(), 1);
+    jacobiShader.setUniformTexture("tex0", obstaclesFbo.getTexture(), 2);
     
     renderFrame(gridWidth,gridHeight);
     
@@ -579,9 +579,9 @@ void ofxFluid::subtractGradient(){
     subtractGradientShader.begin();
     subtractGradientShader.setUniform1f("GradientScale", gradientScale);
     
-    subtractGradientShader.setUniformTexture("Velocity", velocityBuffer.src->getTextureReference(), 0);
-    subtractGradientShader.setUniformTexture("Pressure", pressureBuffer.src->getTextureReference(), 1);
-    subtractGradientShader.setUniformTexture("tex0", obstaclesFbo.getTextureReference(), 2);
+    subtractGradientShader.setUniformTexture("Velocity", velocityBuffer.src->getTexture(), 0);
+    subtractGradientShader.setUniformTexture("Pressure", pressureBuffer.src->getTexture(), 1);
+    subtractGradientShader.setUniformTexture("tex0", obstaclesFbo.getTexture(), 2);
     
     renderFrame(gridWidth,gridHeight);
     
@@ -593,8 +593,8 @@ void ofxFluid::computeDivergence(){
     divergenceFbo.begin();
     computeDivergenceShader.begin();
     computeDivergenceShader.setUniform1f("HalfInverseCellSize", 0.5f / cellSize);
-    computeDivergenceShader.setUniformTexture("Velocity", velocityBuffer.src->getTextureReference(), 0);
-    computeDivergenceShader.setUniformTexture("tex0", obstaclesFbo.getTextureReference(), 1);
+    computeDivergenceShader.setUniformTexture("Velocity", velocityBuffer.src->getTexture(), 0);
+    computeDivergenceShader.setUniformTexture("tex0", obstaclesFbo.getTexture(), 1);
     
     renderFrame(gridWidth,gridHeight);
 
@@ -643,9 +643,9 @@ void ofxFluid::applyBuoyancy(){
     
     applyBuoyancyShader.setUniform2f("Gravity", (float)gForce.x, (float)gForce.y );
     
-    applyBuoyancyShader.setUniformTexture("Velocity", velocityBuffer.src->getTextureReference(), 0);
-    applyBuoyancyShader.setUniformTexture("Temperature", temperatureBuffer.src->getTextureReference(), 1);
-    applyBuoyancyShader.setUniformTexture("Density", pingPong.src->getTextureReference(), 2);
+    applyBuoyancyShader.setUniformTexture("Velocity", velocityBuffer.src->getTexture(), 0);
+    applyBuoyancyShader.setUniformTexture("Temperature", temperatureBuffer.src->getTexture(), 1);
+    applyBuoyancyShader.setUniformTexture("Density", pingPong.src->getTexture(), 2);
     
     renderFrame(gridWidth,gridHeight);
     

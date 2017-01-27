@@ -75,7 +75,7 @@ public:
     void    addConstantForce(ofPoint _pos, ofPoint _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f );
     
     virtual ofTexture & getTexture() {
-        return pingPong.src->getTextureReference();
+        return pingPong.src->getTexture();
     };
     
     //ofTexture & getTexture();
