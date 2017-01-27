@@ -73,6 +73,10 @@ public:
     void    addVelocity(ofBaseHasTexture &_tex, float _pct = 1.0);
     void    addTemporalForce(ofPoint _pos, ofPoint _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f );
     void    addConstantForce(ofPoint _pos, ofPoint _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f );
+
+    void clearConstantForces() {
+	constantForces.clear();
+    }
     
     virtual ofTexture & getTexture() {
         return pingPong.src->getTexture();
