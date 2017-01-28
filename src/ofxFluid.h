@@ -96,6 +96,7 @@ public:
     float   temperatureDissipation;
     float   pressureDissipation;
     
+    int     numJacobiIterations;
 private:
     void    advect(ofxSwapBuffer& _buffer, float _dissipation);
     void    jacobi();
@@ -134,7 +135,6 @@ private:
     float   cellSize;
     float   scale;
     
-    int     numJacobiIterations;
     bool    bObstacles;
     
     ofFbo   colorAddFbo, velocityAddFbo;
