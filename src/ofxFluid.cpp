@@ -276,6 +276,8 @@ ofxFluid::ofxFluid(){
     
     bObstacles          = true;
     
+    viscosity = 0.001f;
+    
     gForce.set(0,-0.98);
 }
 
@@ -442,6 +444,11 @@ void ofxFluid::update(){
     advect(velocityBuffer, velocityDissipation);
     velocityBuffer.swap();
     
+    for (int i = 0; i < numJacobiIterations; i++) {
+        viscousDiffusion(velocityBuffer, viscosity);
+        velocityBuffer.swap();
+    }
+    
     advect(temperatureBuffer, temperatureDissipation);
     temperatureBuffer.swap();
     
@@ -559,6 +566,7 @@ void ofxFluid::advect(ofxSwapBuffer& _buffer, float _dissipation){
     _buffer.dst->end();
 }
 
+// Using the jacobiShader to solve the Poisson pressure equation
 void ofxFluid::jacobi(){
     pressureBuffer.dst->begin();
     jacobiShader.begin();
@@ -572,6 +580,23 @@ void ofxFluid::jacobi(){
     
     jacobiShader.end();
     pressureBuffer.dst->end();
+}
+
+// Using the jacobiShader to solve the viscous diffusion equation (also Poisson)
+void ofxFluid::viscousDiffusion(ofxSwapBuffer& _buffer, float _viscosity){
+    _buffer.dst->begin();
+    jacobiShader.begin();
+    float alpha=cellSize * cellSize/_viscosity*ofGetFrameRate();
+    jacobiShader.setUniform1f("Alpha",alpha);
+    jacobiShader.setUniform1f("InverseBeta", 1.0f/(4+alpha));
+    jacobiShader.setUniformTexture("Pressure", _buffer.src->getTexture(), 0);
+    jacobiShader.setUniformTexture("Divergence", _buffer.src->getTexture(), 1);
+    jacobiShader.setUniformTexture("tex0", obstaclesFbo.getTexture(), 2);
+    
+    renderFrame(gridWidth,gridHeight);
+    
+    jacobiShader.end();
+    _buffer.dst->end();
 }
 
 void ofxFluid::subtractGradient(){

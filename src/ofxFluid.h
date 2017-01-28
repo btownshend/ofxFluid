@@ -95,11 +95,12 @@ public:
     float   velocityDissipation;
     float   temperatureDissipation;
     float   pressureDissipation;
-    
+    float   viscosity;
     int     numJacobiIterations;
 private:
     void    advect(ofxSwapBuffer& _buffer, float _dissipation);
     void    jacobi();
+    void    viscousDiffusion(ofxSwapBuffer& _buffer, float _viscosity);
     void    subtractGradient();
     void    computeDivergence();
     
