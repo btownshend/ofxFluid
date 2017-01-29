@@ -82,6 +82,18 @@ public:
         return pingPong.src->getTexture();
     };
     
+    ofTexture & getVelocityTexture() {
+        return velocityBuffer.src->getTexture();
+    };
+    
+    ofTexture & getTemperatureTexture() {
+        return temperatureBuffer.src->getTexture();
+    };
+    
+    ofTexture & getPressureTexture() {
+        return pressureBuffer.src->getTexture();
+    };
+    
     //ofTexture & getTexture();
     const ofTexture & getTexture() const;
     
