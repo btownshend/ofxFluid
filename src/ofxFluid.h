@@ -79,7 +79,10 @@ public:
     void    addConstantForce(ofPoint _pos, ofPoint _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f )
         { constantForces.push_back(punctualForce(_pos * scale,_dir,_col,_rad,_temp,_den)); }
     void clearConstantForces() {
-	constantForces.clear();
+        constantForces.clear();
+    }
+    void setConstantForces(vector<punctualForce> forces) {
+        constantForces=forces;
     }
     
     virtual ofTexture & getTexture() {
