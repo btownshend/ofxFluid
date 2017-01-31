@@ -222,6 +222,7 @@ ofxFluid::ofxFluid(){
                                                       if (d < Radius) {
                                                           float a = (Radius - d) * 0.5;
                                                           a = min(a, 1.0);
+                                                          gl_FragColor = vec4(Value.rgb,Value.a*a);
                                                       } else {
                                                           gl_FragColor = vec4(0);
                                                       }
