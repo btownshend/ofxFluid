@@ -659,6 +659,7 @@ void ofxFluid::applyImpulse(ofxSwapBuffer& _buffer, ofPoint _force, ofPoint _val
 
 void ofxFluid::applyImpulse(ofxSwapBuffer& _buffer, ofPoint _force, ofFloatColor _value, float _radio){
     glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     _buffer.src->begin();
     applyImpulseShader.begin();
     
