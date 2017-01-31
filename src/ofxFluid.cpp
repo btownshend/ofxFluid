@@ -277,6 +277,7 @@ ofxFluid::ofxFluid(){
     bObstacles          = true;
     
     viscosity = 0.001f;
+    diffusion = 0.001f;
     
     gForce.set(0,-0.98);
 }
@@ -436,6 +437,11 @@ void ofxFluid::update(){
     advect(temperatureBuffer, temperatureDissipation);
     temperatureBuffer.swap();
     
+    // Diffuse & Advect density (color)
+    for (int i = 0; i < numJacobiIterations; i++) {
+        viscousDiffusion(pingPong, diffusion);
+        pingPong.swap();
+    }
     advect(pingPong, dissipation);
     pingPong.swap();
     

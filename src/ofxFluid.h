@@ -114,7 +114,8 @@ public:
     float   velocityDissipation;
     float   temperatureDissipation;
     float   pressureDissipation;
-    float   viscosity;
+    float   viscosity;  // Parameter of diffusion of velocity field
+    float   diffusion;  // Diffusion of pingpong (dye) 
     int     numJacobiIterations;
     Boolean smokeEnabled;
     float   smokeBuoyancy;
