@@ -271,6 +271,8 @@ ofxFluid::ofxFluid(){
     ambientTemperature  = 0.0f;
     numJacobiIterations = 40;
     timeStep            = 0.125f;
+    
+    smokeEnabled        = true;
     smokeBuoyancy       = 1.0f;
     smokeWeight         = 0.05f;
     
@@ -434,8 +436,10 @@ void ofxFluid::update(){
         velocityBuffer.swap();
     }
     
-    advect(temperatureBuffer, temperatureDissipation);
-    temperatureBuffer.swap();
+    if (smokeEnabled) {
+        advect(temperatureBuffer, temperatureDissipation);
+        temperatureBuffer.swap();
+    }
     
     // Diffuse & Advect density (color)
     for (int i = 0; i < numJacobiIterations; i++) {
@@ -445,8 +449,11 @@ void ofxFluid::update(){
     advect(pingPong, dissipation);
     pingPong.swap();
     
-    applyBuoyancy();
-    velocityBuffer.swap();
+    // Apply buoyancy (depends on gravity and temperature)
+    if (smokeEnabled) {
+        applyBuoyancy();
+        velocityBuffer.swap();
+    }
     
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     ofDisableBlendMode();
