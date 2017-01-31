@@ -215,14 +215,13 @@ ofxFluid::ofxFluid(){
     // APPLY IMPULSE
     string fragmentApplyImpulseShader = STRINGIFY(uniform vec2    Point;
                                                   uniform float   Radius;
-                                                  uniform vec3    Value;
+                                                  uniform vec4    Value;
                                                   
                                                   void main(){
                                                       float d = distance(Point, gl_TexCoord[0].st);
                                                       if (d < Radius) {
                                                           float a = (Radius - d) * 0.5;
                                                           a = min(a, 1.0);
-                                                          gl_FragColor = vec4(Value, a);
                                                       } else {
                                                           gl_FragColor = vec4(0);
                                                       }
@@ -646,7 +645,23 @@ void ofxFluid::applyImpulse(ofxSwapBuffer& _buffer, ofPoint _force, ofPoint _val
     
     applyImpulseShader.setUniform2f("Point", (float)_force.x, (float)_force.y);
     applyImpulseShader.setUniform1f("Radius", (float) _radio );
-    applyImpulseShader.setUniform3f("Value", (float)_value.x, (float)_value.y, (float)_value.z);
+    applyImpulseShader.setUniform4f("Value", (float)_value.x, (float)_value.y, (float)_value.z, 1.0f);
+    
+    renderFrame(gridWidth,gridHeight);
+    
+    applyImpulseShader.end();
+    _buffer.src->end();
+    glDisable(GL_BLEND);
+}
+
+void ofxFluid::applyImpulse(ofxSwapBuffer& _buffer, ofPoint _force, ofFloatColor _value, float _radio){
+    glEnable(GL_BLEND);
+    _buffer.src->begin();
+    applyImpulseShader.begin();
+    
+    applyImpulseShader.setUniform2f("Point", (float)_force.x, (float)_force.y);
+    applyImpulseShader.setUniform1f("Radius", (float) _radio );
+    applyImpulseShader.setUniform4f("Value", (float)_value.r, (float)_value.g, (float)_value.b, (float)_value.a);
     
     renderFrame(gridWidth,gridHeight);
     
