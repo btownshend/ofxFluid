@@ -425,16 +425,18 @@ void ofxFluid::update(){
         ofPopStyle();
     }
     
-    //  Pre-Compute
+    //  Diffuse & Advect velocity field
     //
-    advect(velocityBuffer, velocityDissipation);
-    velocityBuffer.swap();
-    
     for (int i = 0; i < numJacobiIterations; i++) {
         viscousDiffusion(velocityBuffer, viscosity);
         velocityBuffer.swap();
     }
     
+    advect(velocityBuffer, velocityDissipation);
+    velocityBuffer.swap();
+    
+    //  Advect temperature
+    //
     if (smokeEnabled) {
         advect(temperatureBuffer, temperatureDissipation);
         temperatureBuffer.swap();
@@ -479,6 +481,7 @@ void ofxFluid::update(){
         velocityAddPct = 0.0;
     }
     
+    // Apply one-time (temporal) forces to temperature, density(color;pingpong), and velocity buffers
     if ( temporalForces.size() != 0){
         ofEnableBlendMode(OF_BLENDMODE_ADD);
         ofDisableBlendMode();
@@ -493,6 +496,7 @@ void ofxFluid::update(){
         temporalForces.clear();
     }
     
+    // Apply constant forces to temperature, density(color;pingpong), and velocity buffers
     if ( constantForces.size() != 0){
         ofEnableBlendMode(OF_BLENDMODE_ADD);
         ofDisableBlendMode();
