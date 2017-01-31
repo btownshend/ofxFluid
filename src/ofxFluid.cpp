@@ -489,8 +489,7 @@ void ofxFluid::update(){
         
         for(int i = 0; i < temporalForces.size(); i++){
             applyImpulse(temperatureBuffer, temporalForces[i].pos, ofVec3f(temporalForces[i].temp,temporalForces[i].temp,temporalForces[i].temp), temporalForces[i].rad);
-            if (temporalForces[i].color.length() != 0)
-                applyImpulse(pingPong, temporalForces[i].pos, temporalForces[i].color * temporalForces[i].den, temporalForces[i].rad);
+            applyImpulse(pingPong, temporalForces[i].pos, temporalForces[i].color * temporalForces[i].den, temporalForces[i].rad);
             if (temporalForces[i].vel.length() != 0)
                 applyImpulse(velocityBuffer , temporalForces[i].pos, temporalForces[i].vel, temporalForces[i].rad);
         }
@@ -503,8 +502,7 @@ void ofxFluid::update(){
         ofDisableBlendMode();
         for(int i = 0; i < constantForces.size(); i++){
             applyImpulse(temperatureBuffer, constantForces[i].pos, ofVec3f(constantForces[i].temp,constantForces[i].temp,constantForces[i].temp), constantForces[i].rad);
-            if (constantForces[i].color.length() != 0)
-                applyImpulse(pingPong, constantForces[i].pos, constantForces[i].color * constantForces[i].den, constantForces[i].rad);
+            applyImpulse(pingPong, constantForces[i].pos, constantForces[i].color * constantForces[i].den, constantForces[i].rad);
             if (constantForces[i].vel.length() != 0)
                 applyImpulse(velocityBuffer , constantForces[i].pos, constantForces[i].vel, constantForces[i].rad);
         }
