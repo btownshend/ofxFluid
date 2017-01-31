@@ -48,14 +48,16 @@
 #include "ofMain.h"
 #include "ofxFXObject.h"
 
-typedef struct  {
+class punctualForce  {
+public:
     ofFloatColor color;
     ofVec2f pos;
     ofVec2f vel;
     float   rad;
     float   temp;
     float   den;
-} punctualForce;
+    punctualForce(ofPoint _pos, ofPoint _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f );
+};
 
 class ofxFluid : public ofxFXObject {
 public:
@@ -72,9 +74,10 @@ public:
     void    addColor(ofBaseHasTexture &_tex, float _pct = 1.0);
     void    addVelocity(ofTexture &_tex, float _pct = 1.0);
     void    addVelocity(ofBaseHasTexture &_tex, float _pct = 1.0);
-    void    addTemporalForce(ofPoint _pos, ofPoint _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f );
-    void    addConstantForce(ofPoint _pos, ofPoint _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f );
-
+    void    addTemporalForce(ofPoint _pos, ofPoint _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f )
+        { temporalForces.push_back(punctualForce(_pos * scale,_dir,_col,_rad,_temp,_den)); }
+    void    addConstantForce(ofPoint _pos, ofPoint _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f )
+        { constantForces.push_back(punctualForce(_pos * scale,_dir,_col,_rad,_temp,_den)); }
     void clearConstantForces() {
 	constantForces.clear();
     }

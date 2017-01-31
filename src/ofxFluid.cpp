@@ -331,31 +331,15 @@ void ofxFluid::setUseObstacles(bool _do){
     }
 }
 
-void ofxFluid::addTemporalForce(ofPoint _pos, ofPoint _vel, ofFloatColor _col, float _rad, float _temp, float _den){
-    punctualForce f;
-    
-    f.pos = _pos * scale;
-    f.vel = _vel;
-    f.color.set(_col.r,_col.g,_col.b);
-    f.rad = _rad;
-    f.temp = _temp;
-    f.den = _den;
-
-    temporalForces.push_back(f);
+punctualForce::punctualForce(ofPoint _pos, ofPoint _vel, ofFloatColor _col, float _rad, float _temp, float _den){
+    pos = _pos;
+    vel = _vel;
+    color=_col;
+    rad = _rad;
+    temp = _temp;
+    den = _den;
 }
 
-void ofxFluid::addConstantForce(ofPoint _pos, ofPoint _vel, ofFloatColor _col, float _rad, float _temp, float _den){
-    punctualForce f;
-    
-    f.pos = _pos * scale;
-    f.vel = _vel;
-    f.color.set(_col.r,_col.g,_col.b);
-    f.rad = _rad;
-    f.temp = _temp;
-    f.den = _den;
-    
-    constantForces.push_back(f);
-}
 
 void ofxFluid::setObstacles(ofBaseHasTexture &_tex){
     ofPushStyle();
