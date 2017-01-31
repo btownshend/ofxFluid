@@ -49,7 +49,7 @@
 #include "ofxFXObject.h"
 
 typedef struct  {
-    ofVec3f color;
+    ofFloatColor color;
     ofVec2f pos;
     ofVec2f vel;
     float   rad;
