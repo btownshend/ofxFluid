@@ -64,6 +64,7 @@ public:
     void    allocate(int _width, int _height, float _scale = 0.5, bool _hd = true);
     
     void    setGravity(ofPoint _force){ gForce = _force; };
+    ofPoint getGravity() const { return gForce; }
     void    setUseObstacles(bool _do);
     void    setObstacles(ofBaseHasTexture &_tex);
     
@@ -109,6 +110,12 @@ public:
     float   pressureDissipation;
     float   viscosity;
     int     numJacobiIterations;
+    Boolean smokeEnabled;
+    float   smokeBuoyancy;
+    float   smokeWeight;
+    float   ambientTemperature;
+    
+    float   scale;  // Internal grid size is scale*(width,height)
 private:
     void    advect(ofxSwapBuffer& _buffer, float _dissipation);
     void    jacobi();
@@ -138,15 +145,11 @@ private:
     vector<punctualForce> temporalForces;
     ofPoint gForce;
     
-    float   smokeBuoyancy;
-    float   smokeWeight;
+
     float   gradientScale;
-    float   ambientTemperature;
-    
     float   gridWidth,gridHeight;
     float   timeStep;
     float   cellSize;
-    float   scale;
     
     bool    bObstacles;
     
