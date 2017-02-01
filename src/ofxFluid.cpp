@@ -412,6 +412,15 @@ void ofxFluid::clear(float _alpha){
     velocityAddFbo.end();
 }
 
+void ofxFluid::clearAlpha() {
+    pingPong.dst->begin();
+    ofClearAlpha();
+    pingPong.dst->end();
+    pingPong.src->begin();
+    ofClearAlpha();
+    pingPong.src->end();
+}
+
 void ofxFluid::update(){
     ofDisableAlphaBlending();
     
@@ -529,9 +538,10 @@ void ofxFluid::draw(int x, int y, float _width, float _height){
     if (_height == -1) _height = height;
     
     ofPushStyle();
-    ofSetColor(255);
+    ofSetColor(255);  // No effect
     
-//    ofEnableAlphaBlending();
+    //ofDisableAlphaBlending();  // Just copy the RGB values (no alpha)
+
 //    if(bObstacles){
 //        textures[0].draw(x,y,_width,_height);
 //    }
