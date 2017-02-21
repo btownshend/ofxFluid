@@ -131,7 +131,7 @@ private:
     void    viscousDiffusion(ofxSwapBuffer& _buffer, float _viscosity);
     void    subtractGradient();
     void    computeDivergence();
-    
+    void    project(); // Project onto zero-divergence solution
     void    applyImpulse(ofxSwapBuffer& _buffer, ofBaseHasTexture &_baseTex, float _pct = 1.0, bool _isVel = false);
     void    applyImpulse(ofxSwapBuffer& _buffer, ofPoint _force, ofPoint _value, float _radio = 3.f);
     void    applyImpulse(ofxSwapBuffer& _buffer, ofPoint _force, ofFloatColor _value, float _radio);

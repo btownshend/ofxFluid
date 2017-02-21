@@ -517,6 +517,10 @@ void ofxFluid::update(){
         }
     }
     
+        project();
+}
+
+void ofxFluid::project() {
     //  Compute
     //
     computeDivergence();
