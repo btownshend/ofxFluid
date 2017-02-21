@@ -449,6 +449,7 @@ void ofxFluid::update(){
         applyBuoyancy();
         velocityBuffer.swap();
     }
+    project();
     
     //  Advect temperature
     //
@@ -482,24 +483,28 @@ void ofxFluid::update(){
         colorAddPct = 0.0;
     }
     
+    Boolean velocityUpdated=false;
     if(velocityAddPct>0.0){
         applyImpulse(velocityBuffer, velocityAddFbo, velocityAddPct, true);
         velocityAddFbo.begin();
         ofClear(0);
         velocityAddFbo.end();
         velocityAddPct = 0.0;
+        velocityUpdated = true;
     }
     
+
     // Apply one-time (temporal) forces to temperature, density(color;pingpong), and velocity buffers
     if ( temporalForces.size() != 0){
         ofEnableBlendMode(OF_BLENDMODE_ADD);
         ofDisableBlendMode();
-        
         for(int i = 0; i < temporalForces.size(); i++){
             applyImpulse(temperatureBuffer, temporalForces[i].pos, ofVec3f(temporalForces[i].temp,temporalForces[i].temp,temporalForces[i].temp), temporalForces[i].rad);
             applyImpulse(pingPong, temporalForces[i].pos, temporalForces[i].color * temporalForces[i].den, temporalForces[i].rad);
-            if (temporalForces[i].vel.length() != 0)
+            if (temporalForces[i].vel.length() != 0) {
                 applyImpulse(velocityBuffer , temporalForces[i].pos, temporalForces[i].vel, temporalForces[i].rad);
+                velocityUpdated=true;
+            }
         }
         temporalForces.clear();
     }
@@ -511,11 +516,13 @@ void ofxFluid::update(){
         for(int i = 0; i < constantForces.size(); i++){
             applyImpulse(temperatureBuffer, constantForces[i].pos, ofVec3f(constantForces[i].temp,constantForces[i].temp,constantForces[i].temp), constantForces[i].rad);
             applyImpulse(pingPong, constantForces[i].pos, constantForces[i].color * constantForces[i].den, constantForces[i].rad);
-            if (constantForces[i].vel.length() != 0)
+            if (constantForces[i].vel.length() != 0) {
                 applyImpulse(velocityBuffer , constantForces[i].pos, constantForces[i].vel, constantForces[i].rad);
+                velocityUpdated=true;
+            }
         }
     }
-    
+    if (velocityUpdated)
         project();
 }
 
