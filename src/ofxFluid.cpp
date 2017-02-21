@@ -444,6 +444,11 @@ void ofxFluid::update(){
     
     advect(velocityBuffer, velocityDissipation);
     velocityBuffer.swap();
+    // Apply buoyancy (depends on gravity and temperature)
+    if (smokeEnabled) {
+        applyBuoyancy();
+        velocityBuffer.swap();
+    }
     
     //  Advect temperature
     //
@@ -459,12 +464,6 @@ void ofxFluid::update(){
     }
     advect(pingPong, dissipation);
     pingPong.swap();
-    
-    // Apply buoyancy (depends on gravity and temperature)
-    if (smokeEnabled) {
-        applyBuoyancy();
-        velocityBuffer.swap();
-    }
     
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     ofDisableBlendMode();
