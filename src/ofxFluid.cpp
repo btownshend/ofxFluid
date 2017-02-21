@@ -548,16 +548,16 @@ void ofxFluid::draw(int x, int y, float _width, float _height){
     if (_height == -1) _height = height;
     
     ofPushStyle();
-    ofSetColor(255);  // No effect
+    ofSetColor(255);  // Controls tint of texture draws
     
-    //ofDisableAlphaBlending();  // Just copy the RGB values (no alpha)
-
-//    if(bObstacles){
-//        textures[0].draw(x,y,_width,_height);
-//    }
-    
+    ofDisableAlphaBlending();  // Overwrite display FBO with the pingpong buffer
     pingPong.src->draw(x,y,_width,_height);
-
+    if(bObstacles){
+        ofEnableBlendMode(OF_BLENDMODE_ADD);  // Blend in the obstacles
+        //ofSetColor(255,255,255,127);
+        textures[0].draw(x,y,_width,_height);
+    }
+    
     ofPopStyle();
 }
 
